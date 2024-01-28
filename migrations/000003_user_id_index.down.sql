@@ -1,0 +1,1 @@
+DROP INDEX IF EXISTS ind_user_id

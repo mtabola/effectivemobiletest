@@ -1,0 +1,1 @@
+INSERT INTO Regions (RegionCode) VALUES ('RU'), ('EN'), ('BY'), ('UK'), ('UA') 
