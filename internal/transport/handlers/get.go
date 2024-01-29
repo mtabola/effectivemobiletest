@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
 )
 
@@ -16,6 +17,13 @@ type UserGetter interface {
 
 func NewGetter(log *slog.Logger, ud UserGetter) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		const op = "handlers.get.NewGetter"
+
+		log = log.With(
+			slog.String("op", op),
+			slog.String("request_id", middleware.GetReqID(r.Context())),
+		)
+
 		values := r.URL.Query()
 		outValues := make(map[string]string)
 		var err error

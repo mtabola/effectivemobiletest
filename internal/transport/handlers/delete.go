@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
 )
 
@@ -15,6 +16,13 @@ type UserDeleteter interface {
 
 func NewDeleteter(log *slog.Logger, ud UserDeleteter) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		const op = "handlers.delete.NewDeleteter"
+
+		log = log.With(
+			slog.String("op", op),
+			slog.String("request_id", middleware.GetReqID(r.Context())),
+		)
+
 		uid := r.URL.Query().Get("user_id")
 		if uid == "" {
 			log.Error("Wrong url params")
